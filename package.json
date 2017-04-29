@@ -1,0 +1,26 @@
+{
+  "name": "simpr",
+  "version": "0.1.0",
+  "description": "SimPR is a Chrome extension that helps you when reviewing GitHub's pull requests",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/surbina/simpr.git"
+  },
+  "keywords": [
+    "GitHub",
+    "PR",
+    "PullRequest",
+    "Chrome",
+    "Extension"
+  ],
+  "author": "sebita.urbina@gmail.com",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/surbina/simpr/issues"
+  },
+  "homepage": "https://github.com/surbina/simpr#readme"
+}
