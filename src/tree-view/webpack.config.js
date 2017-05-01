@@ -1,4 +1,10 @@
 const path = require('path');
+const ExtractTextPlugin = require("extract-text-webpack-plugin");
+
+const extractSass = new ExtractTextPlugin({
+    filename: "simpr.css",
+    //disable: process.env.NODE_ENV === "development"
+});
 
 module.exports = {
 
@@ -24,6 +30,21 @@ module.exports = {
                 exclude: /node_modules/,
                 use: ['babel-loader'],
             },
+            {
+                test: /\.scss$/,
+                use: extractSass.extract({
+                    use: [{
+                        loader: "css-loader"
+                    }, {
+                        loader: "sass-loader"
+                    }],
+                    // use style-loader in development
+                    fallback: "style-loader"
+                })
+            }
         ]
-    }
+    },
+    plugins: [
+        extractSass
+    ]
 };

@@ -35,11 +35,16 @@
     "redux": "^3.6.0"
   },
   "devDependencies": {
+    "css-loader": "^0.28.0",
+    "extract-text-webpack-plugin": "^2.1.0",
     "gulp": "^3.9.1",
     "gulp-load-plugins": "^1.5.0",
     "gulp-rename": "^1.2.2",
     "gulp-util": "^3.0.8",
+    "node-sass": "^4.5.2",
     "rimraf": "^2.6.1",
+    "sass-loader": "^6.0.3",
+    "style-loader": "^0.16.1",
     "webpack": "^2.4.1"
   }
 }

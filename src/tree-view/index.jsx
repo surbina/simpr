@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
 import {render} from 'react-dom';
+import './index.scss';
 
 class TreeView extends Component {
     constructor(props) {
@@ -8,7 +9,7 @@ class TreeView extends Component {
 
     render() {
         return (
-            <div>
+            <div className="really-odd-color">
                 This is a tree view
             </div>
         );

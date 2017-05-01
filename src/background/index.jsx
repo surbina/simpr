@@ -10,6 +10,7 @@ chrome.tabs.onUpdated.addListener((tabId, changeInfo, tab) => {
             return;
         }
 
+        chrome.tabs.insertCSS(tabId, { file: 'simpr.css', runAt: 'document_start' });
         chrome.tabs.executeScript(tabId, { file: 'simpr.js', runAt: 'document_start' });
     })
 });
