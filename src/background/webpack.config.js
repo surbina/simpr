@@ -3,11 +3,11 @@ const path = require('path');
 module.exports = {
 
   entry: [
-    './src/popup/index.jsx'
+    './src/background/index.jsx'
   ],
 
   output: {
-    filename: 'event.js',
+    filename: 'background.js',
     path: path.join(__dirname, '../../', 'build'),
     publicPath: '/'
   },

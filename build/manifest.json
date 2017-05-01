@@ -3,13 +3,20 @@
   "name": "SimPR",
   "description": "SimPR is an extension that helps to simplify reviewing a PR",
   "version": "0.1.0",
+  "permissions": [
+    "https://github.com/*",
+    "storage"
+  ],
+  "optional_permissions": [
+    "<all_urls>"
+  ],
   "background": {
     "scripts": [
-      "event.js"
+      "background.js"
     ],
-    "persistent": true
+    "persistent": false
   },
-  "browser_action": {
+  "page_action": {
     "default_title": "SimPR",
     "default_popup": "popup.html"
   }

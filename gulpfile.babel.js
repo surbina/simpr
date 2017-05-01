@@ -6,10 +6,21 @@ import rimraf from 'rimraf';
 const plugins = loadPlugins();
 
 import popupWebpackConfig from './src/popup/webpack.config';
-import eventWebpackConfig from './src/event/webpack.config';
+import backgroundWebpackConfig from './src/background/webpack.config';
+import simprWebpackConfig from './src/tree-view/webpack.config';
 
-gulp.task('event-js', ['clean'], (cb) => {
-  webpack(eventWebpackConfig, (err, stats) => {
+gulp.task('simpr-js', ['clean'], (cb) => {
+    webpack(simprWebpackConfig, (err, stats) => {
+        if(err) throw new plugins.util.PluginError('webpack', err);
+
+        plugins.util.log('[webpack]', stats.toString());
+
+        cb();
+    });
+});
+
+gulp.task('background-js', ['clean'], (cb) => {
+  webpack(backgroundWebpackConfig, (err, stats) => {
     if(err) throw new plugins.util.PluginError('webpack', err);
 
     plugins.util.log('[webpack]', stats.toString());
@@ -43,7 +54,7 @@ gulp.task('clean', (cb) => {
   rimraf('./build', cb);
 });
 
-gulp.task('build', ['copy-manifest', 'event-js', 'popup-js', 'popup-html']);
+gulp.task('build', ['copy-manifest', 'simpr-js', 'background-js', 'popup-js', 'popup-html']);
 
 gulp.task('watch', ['default'], () => {
   gulp.watch('src/**/*', ['build']);
