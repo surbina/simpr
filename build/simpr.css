@@ -8,11 +8,19 @@
   height: 100%;
   z-index: 1000001; }
 
+.simpr-explorer--close {
+  left: -300px; }
+  .simpr-explorer--close .simpr-explorer__menu__button {
+    position: relative;
+    left: 40px; }
+
 .simpr-explorer__menu {
   padding: 10px 5px;
-  border-bottom: 1px solid black; }
+  border-bottom: 1px solid black;
+  display: flex;
+  justify-content: space-between; }
 
 .simpr-explorer__panel {
   padding: 10px; }
-html {
+.simpr-body--open-explorer {
   margin-left: 300px; }

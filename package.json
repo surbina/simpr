@@ -29,12 +29,16 @@
     "babel-loader": "^7.0.0",
     "babel-preset-es2015": "^6.24.1",
     "babel-preset-react": "^6.24.1",
+    "classnames": "^2.2.5",
     "react": "^15.5.4",
     "react-chrome-redux": "^1.3.2",
     "react-dom": "^15.5.4",
-    "redux": "^3.6.0"
+    "react-redux": "^5.0.4",
+    "redux": "^3.6.0",
+    "redux-action-reducer-mapper": "^1.0.2"
   },
   "devDependencies": {
+    "babel-plugin-transform-object-rest-spread": "^6.23.0",
     "css-loader": "^0.28.0",
     "extract-text-webpack-plugin": "^2.1.0",
     "gulp": "^3.9.1",

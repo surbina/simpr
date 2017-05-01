@@ -1,4 +1,4 @@
-@import "../variables";
+@import "../../../variables";
 
 .simpr-explorer {
   position: fixed;
@@ -11,9 +11,22 @@
   z-index: 1000001;
 }
 
+.simpr-explorer--close {
+  left: -$simpr-explorer-width;
+
+  .simpr-explorer__menu__button {
+    position: relative;
+    left: 40px;
+  }
+}
+
 .simpr-explorer__menu {
   padding: 10px 5px;
   border-bottom: 1px solid black;
+
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 
 .simpr-explorer__panel {
