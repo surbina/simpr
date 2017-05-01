@@ -9,18 +9,18 @@ const extractSass = new ExtractTextPlugin({
 module.exports = {
 
     entry: [
-        './src/tree-view/index.jsx'
+        './src/simpr.jsx'
     ],
 
     output: {
         filename: 'simpr.js',
-        path: path.join(__dirname, '../../', 'build'),
+        path: path.join(__dirname, '../', 'build'),
         publicPath: '/'
     },
 
     resolve: {
         extensions: ['.js', '.jsx', '.scss', '.json'],
-        modules: [path.join(__dirname, '../../', 'node_modules')]
+        modules: [path.join(__dirname, '../', 'node_modules')]
     },
 
     module: {

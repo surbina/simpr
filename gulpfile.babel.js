@@ -7,7 +7,7 @@ const plugins = loadPlugins();
 
 import popupWebpackConfig from './src/popup/webpack.config';
 import backgroundWebpackConfig from './src/background/webpack.config';
-import simprWebpackConfig from './src/tree-view/webpack.config';
+import simprWebpackConfig from './src/webpack.config';
 
 gulp.task('simpr-js', ['clean'], (cb) => {
     webpack(simprWebpackConfig, (err, stats) => {
