@@ -9,7 +9,7 @@ class TreeView extends Component {
 
     render() {
         return (
-            <div className="really-odd-color">
+            <div className="simpr-tree-view__container">
                 This is a tree view
             </div>
         );

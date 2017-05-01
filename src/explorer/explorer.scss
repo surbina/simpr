@@ -1,18 +1,21 @@
+@import "../variables";
+
 .simpr-explorer {
   position: fixed;
   background: white;
   border-right: 1px solid grey;
-  width: 300px;
+  width: $simpr-explorer-width;
   top: 0;
   left: 0;
   height: 100%;
-  z-index: 1000001; }
+  z-index: 1000001;
+}
 
 .simpr-explorer__menu {
   padding: 10px 5px;
-  border-bottom: 1px solid black; }
+  border-bottom: 1px solid black;
+}
 
 .simpr-explorer__panel {
-  padding: 10px; }
-html {
-  margin-left: 300px; }
+  padding: 10px;
+}
