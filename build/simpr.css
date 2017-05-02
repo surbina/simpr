@@ -6,10 +6,12 @@
   top: 0;
   left: 0;
   height: 100%;
-  z-index: 1000001; }
+  z-index: 1000001;
+  overflow: scroll; }
 
 .simpr-explorer--close {
-  left: -300px; }
+  left: -300px;
+  overflow: visible; }
   .simpr-explorer--close .simpr-explorer__menu__button {
     position: relative;
     left: 40px; }
@@ -18,7 +20,8 @@
   padding: 10px 5px;
   border-bottom: 1px solid black;
   display: flex;
-  justify-content: space-between; }
+  justify-content: space-between;
+  align-items: center; }
 
 .simpr-explorer__panel {
   padding: 10px; }

@@ -9,10 +9,12 @@
   left: 0;
   height: 100%;
   z-index: 1000001;
+  overflow: scroll;
 }
 
 .simpr-explorer--close {
   left: -$simpr-explorer-width;
+  overflow: visible;
 
   .simpr-explorer__menu__button {
     position: relative;

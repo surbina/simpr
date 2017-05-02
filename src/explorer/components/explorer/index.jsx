@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import classNames from 'classnames';
-import TreeView from '../../../tree-view/components/tree-view';
+import TreeViewContainer from '../../../tree-view/components/tree-view-container';
 
 import './explorer.scss';
 
@@ -29,7 +29,7 @@ class Explorer extends Component {
                     </button>
                 </div>
                 <div className="simpr-explorer__panel">
-                    <TreeView />
+                    <TreeViewContainer />
                 </div>
             </div>
         );
