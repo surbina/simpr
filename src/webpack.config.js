@@ -20,7 +20,17 @@ module.exports = {
 
     resolve: {
         extensions: ['.js', '.jsx', '.scss', '.json'],
-        modules: [path.join(__dirname, '../', 'node_modules')]
+        modules: [path.join(__dirname, '../', 'node_modules')],
+        alias: {
+            'lodash/object/omit': 'lodash/omit',
+            'lodash/object/extend': 'lodash/extend',
+            'lodash/lang/isObject': 'lodash/isObject',
+            'lodash/lang/isEqual': 'lodash/isEqual',
+            'lodash/collection/forEach': 'lodash/forEach',
+            'lodash/collection/each': 'lodash/each',
+            'lodash/collection/pluck': 'lodash/map',
+            'lodash/object/keys': 'lodash/keys',
+        }
     },
 
     module: {
