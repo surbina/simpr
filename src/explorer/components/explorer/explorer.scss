@@ -3,7 +3,7 @@
 .simpr-explorer {
   position: fixed;
   background: white;
-  border-right: 1px solid grey;
+  border-right: 1px solid #9DA5AB;
   width: $simpr-explorer-width;
   top: 0;
   left: 0;
@@ -24,7 +24,7 @@
 
 .simpr-explorer__menu {
   padding: 10px 5px;
-  border-bottom: 1px solid black;
+  border-bottom: 1px solid #9DA5AB;
 
   display: flex;
   justify-content: space-between;

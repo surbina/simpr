@@ -2,6 +2,7 @@ import { reduce } from 'lodash';
 import mapActionToReducer from 'redux-action-reducer-mapper';
 
 import {
+    FETCH_PR_DATA_RESPONSE,
     FETCH_HEAD_REQUEST,
     FETCH_HEAD_RESPONSE,
     FETCH_PR_FILES_REQUEST,
@@ -23,6 +24,11 @@ const INITIAL_STATE = {
 
 export default mapActionToReducer({
     default: INITIAL_STATE,
+    [FETCH_PR_DATA_RESPONSE]: (state, action) => ({
+        ...state,
+        prRef: action.payload.prRef,
+        prHtmlUrl: action.payload.prHtmlUrl,
+    }),
     [FETCH_HEAD_REQUEST]: (state) => ({
         ...state,
         treeStatus: TREE_STATUS_LOADING,

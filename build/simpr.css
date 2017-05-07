@@ -1,7 +1,22 @@
+.simpr-tree-view__header {
+  display: inline-block;
+  vertical-align: top;
+  color: black; }
+  .simpr-tree-view__header:hover {
+    text-decoration: underline; }
+
+.simpr-tree-view__header--modified {
+  background-color: #ecec55; }
+
+.simpr-tree-view__header--removed {
+  background-color: #f1c0c0; }
+
+.simpr-tree-view__header--added {
+  background-color: #c1e9c1; }
 .simpr-explorer {
   position: fixed;
   background: white;
-  border-right: 1px solid grey;
+  border-right: 1px solid #9DA5AB;
   width: 300px;
   top: 0;
   left: 0;
@@ -18,7 +33,7 @@
 
 .simpr-explorer__menu {
   padding: 10px 5px;
-  border-bottom: 1px solid black;
+  border-bottom: 1px solid #9DA5AB;
   display: flex;
   justify-content: space-between;
   align-items: center; }

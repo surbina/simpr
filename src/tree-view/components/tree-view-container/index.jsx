@@ -8,13 +8,13 @@ import {
     fireFetchTree
 } from '../../actions';
 
-const LEAF_TYPE = 'blob';
-const TREE_TYPE = 'tree';
+export const LEAF_TYPE = 'blob';
+export const TREE_TYPE = 'tree';
 
-const FILE_STATUS_UNMODIFIED = 'unmodified';
-const FILE_STATUS_MODIFIED = 'modified';
-const FILE_STATUS_REMOVED = 'removed';
-const FILE_STATUS_ADDED = 'added';
+export const FILE_STATUS_UNMODIFIED = 'unmodified';
+export const FILE_STATUS_MODIFIED = 'modified';
+export const FILE_STATUS_REMOVED = 'removed';
+export const FILE_STATUS_ADDED = 'added';
 
 class TreeViewContainer extends Component {
     componentDidMount() {

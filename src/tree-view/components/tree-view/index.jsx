@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
-import { Treebeard } from 'react-treebeard';
+import { Treebeard, decorators, theme } from 'react-treebeard';
+
+import customDecorators from '../decorators';
 import locationHelper from '../../../location.helper';
 
 import './tree-view.scss';
@@ -17,6 +19,15 @@ class TreeView extends Component {
             },
         };
         this.onToggle = this.onToggle.bind(this);
+
+        this.decorators = Object.assign({}, decorators, customDecorators);
+
+        this.resetStyles = Object.assign({}, theme);
+        this.resetStyles.tree.base.backgroundColor = '';
+        this.resetStyles.tree.base.color =  '';
+        this.resetStyles.tree.node.activeLink.background = '';
+        this.resetStyles.tree.node.loading.color = '';
+        this.resetStyles.tree.node.header.base.color = '';
     }
 
     componentWillReceiveProps(nextProps) {
@@ -38,6 +49,8 @@ class TreeView extends Component {
                 <Treebeard
                     data={ this.state.treeData }
                     onToggle={ this.onToggle }
+                    decorators={ this.decorators }
+                    styles={ this.resetStyles }
                 />
             </div>
         );

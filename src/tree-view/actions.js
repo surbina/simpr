@@ -16,10 +16,11 @@ const fireFetchPRDataRequest = (prId) => ({
     },
 });
 
-const fireFetchPRDataResponse = (prId) => ({
+const fireFetchPRDataResponse = (prRef, prHtmlUrl) => ({
     type: FETCH_PR_DATA_RESPONSE,
     payload: {
-        prId,
+        prRef,
+        prHtmlUrl,
     },
 });
 
@@ -27,6 +28,13 @@ const fireFetchHeadRequest = (prId) => ({
     type: FETCH_HEAD_REQUEST,
     payload: {
         prId,
+    },
+});
+
+const fireFetchHeadResponse = (treeData) => ({
+    type: FETCH_HEAD_RESPONSE,
+    payload: {
+        treeData,
     },
 });
 
@@ -45,13 +53,6 @@ const fireFetchPRFilesResponse = (prId, prFiles) => ({
     },
 });
 
-const fireFetchHeadResponse = (treeData) => ({
-    type: FETCH_HEAD_RESPONSE,
-    payload: {
-        treeData,
-    },
-});
-
 export const fireFetchTree = (prId) =>
     (dispatch) => {
         dispatch(fireFetchPRDataRequest(prId));
@@ -59,9 +60,10 @@ export const fireFetchTree = (prId) =>
         repository
             .getPullRequest(prId)
             .then((prData) => {
-                dispatch(fireFetchPRDataResponse(prId));
+                const prHead = prData.data.head;
+                dispatch(fireFetchPRDataResponse(prHead.ref, prHead.repo.html_url));
 
-                dispatch(fireFetchHead(prData.data.head.sha));
+                dispatch(fireFetchHead(prHead.sha));
             });
 
         dispatch(fireFetchPRFiles(prId));

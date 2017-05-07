@@ -1,0 +1,21 @@
+.simpr-tree-view__header {
+  display: inline-block;
+  vertical-align: top;
+  color: black;
+
+  &:hover {
+    text-decoration: underline;
+  }
+}
+
+.simpr-tree-view__header--modified {
+  background-color: #ecec55;
+}
+
+.simpr-tree-view__header--removed {
+  background-color: #f1c0c0;
+}
+
+.simpr-tree-view__header--added {
+  background-color: #c1e9c1;
+}
