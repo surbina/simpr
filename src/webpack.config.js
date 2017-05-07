@@ -32,7 +32,7 @@ module.exports = {
             'lodash/object/keys': 'lodash/keys',
         }
     },
-
+    devtool: 'source-map',
     module: {
         rules: [
             {

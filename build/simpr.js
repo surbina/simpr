@@ -38255,7 +38255,6 @@ var ExplorerContainer = function (_Component) {
         value: function render() {
             var _this2 = this;
 
-            console.log('Props: ', this.props);
             return _react2.default.createElement(_explorer2.default, {
                 isOpen: this.props.isOpen,
                 onToggleExplorer: function onToggleExplorer() {
@@ -73011,3 +73010,4 @@ module.exports = __webpack_require__(268);
 
 /***/ })
 /******/ ]);
+//# sourceMappingURL=simpr.js.map
