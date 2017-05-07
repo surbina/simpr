@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import { withRouter } from 'react-router-dom'
 import Explorer from '../explorer';
 
 import { fireToggleExplorer } from '../../actions';
@@ -20,4 +21,4 @@ const mapStateToProps = (state) => {
     };
 };
 
-export default connect(mapStateToProps, { fireToggleExplorer })(ExplorerContainer);
+export default withRouter(connect(mapStateToProps, { fireToggleExplorer })(ExplorerContainer));

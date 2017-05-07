@@ -3,6 +3,12 @@ import { render } from 'react-dom';
 import { createStore, applyMiddleware } from 'redux';
 import { Provider } from 'react-redux';
 import thunk from 'redux-thunk';
+
+import {
+    BrowserRouter as Router,
+    Route,
+} from 'react-router-dom'
+
 import root_reducer from './root_reducer';
 import ExplorerContainer from './explorer/components/explorer-container';
 
@@ -27,7 +33,9 @@ store.subscribe(toggleExplorerHandler);
 
 render(
     <Provider store={ store }>
-        <ExplorerContainer />
+        <Router>
+            <Route exact path="/:owner/:repo/pull/:prId/files" component={ ExplorerContainer } />
+        </Router>
     </Provider>,
     treeViewContainer
 );
