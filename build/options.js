@@ -9669,7 +9669,7 @@ var GHEList = function (_Component) {
                 _react2.default.createElement(
                     "button",
                     { type: "submit" },
-                    "Delte auth tokens"
+                    "Delete auth tokens"
                 )
             ) : _react2.default.createElement(
                 "span",

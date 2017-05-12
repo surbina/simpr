@@ -14,7 +14,7 @@ class GHEList extends Component {
                             </li>
                         )}
                     </ul>
-                    <button type="submit">Delte auth tokens</button>
+                    <button type="submit">Delete auth tokens</button>
                 </form> :
                 <span>Permission list is empty</span>
         );

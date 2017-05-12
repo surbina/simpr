@@ -29,7 +29,11 @@ class Explorer extends Component {
                     </button>
                 </div>
                 <div className="simpr-explorer__panel">
-                    <TreeViewContainer />
+                    {
+                        this.props.extensionOptionsLoaded
+                            ? <TreeViewContainer />
+                            : <div>Loading extension ...</div>
+                    }
                 </div>
             </div>
         );

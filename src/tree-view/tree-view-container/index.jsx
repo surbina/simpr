@@ -116,6 +116,7 @@ const mapStateToProps = (state) => {
 
     return {
         treeData,
+        extensionOptionsLoaded: state.options.loaded,
     };
 };
 
