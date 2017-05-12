@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom'
-import Explorer from '../explorer';
+import Explorer from '../explorer/index';
 
-import { fireToggleExplorer } from '../../actions';
+import { fireToggleExplorer } from '../store/actions';
 
 class ExplorerContainer extends Component {
     render() {

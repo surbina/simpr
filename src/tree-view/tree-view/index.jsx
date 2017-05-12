@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import { Treebeard, decorators, theme } from 'react-treebeard';
 
-import customDecorators from '../decorators';
-import locationHelper from '../../../location.helper';
+import customDecorators from '../decorators/index';
+import locationHelper from '../../location.helper';
 
 import './tree-view.scss';
 

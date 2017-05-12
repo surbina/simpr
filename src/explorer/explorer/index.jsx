@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import classNames from 'classnames';
-import TreeViewContainer from '../../../tree-view/components/tree-view-container';
+import TreeViewContainer from '../../tree-view/tree-view-container/index';
 
 import './explorer.scss';
 

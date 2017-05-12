@@ -1,12 +1,12 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { map } from 'lodash';
-import TreeView from '../tree-view';
-import locationHelper from '../../../location.helper';
+import TreeView from '../tree-view/index';
+import locationHelper from '../../location.helper';
 
 import {
     fireFetchTree
-} from '../../actions';
+} from '../../store/pull-request/actions';
 
 export const LEAF_TYPE = 'blob';
 export const TREE_TYPE = 'tree';
@@ -101,8 +101,8 @@ const _insertInTree = (tree, path, node) => {
 };
 
 const mapStateToProps = (state) => {
-    const rawTreeData = state.tree.treeData;
-    const prFiles = state.tree.prFiles;
+    const rawTreeData = state.pullRequest.treeData;
+    const prFiles = state.pullRequest.prFiles;
 
     const treeData = rawTreeData && prFiles ?
         _processTreeData(rawTreeData, prFiles) :

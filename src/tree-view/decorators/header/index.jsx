@@ -5,7 +5,7 @@ import className from 'classnames';
 import {
     FILE_STATUS_UNMODIFIED,
     LEAF_TYPE,
-} from '../../tree-view-container';
+} from '../../tree-view-container/index';
 
 import './header.scss';
 
@@ -60,8 +60,8 @@ class Header extends Component {
 }
 
 const mapStateToProps = (state) => ({
-    prRef: state.tree.prRef,
-    prHtmlUrl: state.tree.prHtmlUrl,
+    prRef: state.pullRequest.prRef,
+    prHtmlUrl: state.pullRequest.prHtmlUrl,
 });
 
 export default connect(mapStateToProps)(Header);

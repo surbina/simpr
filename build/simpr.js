@@ -11030,9 +11030,9 @@ var _reactRedux = __webpack_require__(84);
 
 var _lodash = __webpack_require__(213);
 
-var _treeView = __webpack_require__(294);
+var _index = __webpack_require__(295);
 
-var _treeView2 = _interopRequireDefault(_treeView);
+var _index2 = _interopRequireDefault(_index);
 
 var _location = __webpack_require__(87);
 
@@ -11073,7 +11073,7 @@ var TreeViewContainer = function (_Component) {
     }, {
         key: 'render',
         value: function render() {
-            return _react2.default.createElement(_treeView2.default, { treeData: this.props.treeData });
+            return _react2.default.createElement(_index2.default, { treeData: this.props.treeData });
         }
     }]);
 
@@ -11147,8 +11147,8 @@ var _insertInTree = function _insertInTree(tree, path, node) {
 };
 
 var mapStateToProps = function mapStateToProps(state) {
-    var rawTreeData = state.tree.treeData;
-    var prFiles = state.tree.prFiles;
+    var rawTreeData = state.pullRequest.treeData;
+    var prFiles = state.pullRequest.prFiles;
 
     var treeData = rawTreeData && prFiles ? _processTreeData(rawTreeData, prFiles) : {
         name: _location2.default.getRepoName(),
@@ -38227,9 +38227,9 @@ var _reactRedux = __webpack_require__(84);
 
 var _reactRouterDom = __webpack_require__(252);
 
-var _explorer = __webpack_require__(288);
+var _index = __webpack_require__(288);
 
-var _explorer2 = _interopRequireDefault(_explorer);
+var _index2 = _interopRequireDefault(_index);
 
 var _actions = __webpack_require__(161);
 
@@ -38255,7 +38255,7 @@ var ExplorerContainer = function (_Component) {
         value: function render() {
             var _this2 = this;
 
-            return _react2.default.createElement(_explorer2.default, {
+            return _react2.default.createElement(_index2.default, {
                 isOpen: this.props.isOpen,
                 onToggleExplorer: function onToggleExplorer() {
                     _this2.props.fireToggleExplorer();
@@ -38295,9 +38295,9 @@ var _classnames = __webpack_require__(165);
 
 var _classnames2 = _interopRequireDefault(_classnames);
 
-var _treeViewContainer = __webpack_require__(163);
+var _index = __webpack_require__(163);
 
-var _treeViewContainer2 = _interopRequireDefault(_treeViewContainer);
+var _index2 = _interopRequireDefault(_index);
 
 __webpack_require__(357);
 
@@ -38349,7 +38349,7 @@ var Explorer = function (_Component) {
                 _react2.default.createElement(
                     'div',
                     { className: 'simpr-explorer__panel' },
-                    _react2.default.createElement(_treeViewContainer2.default, null)
+                    _react2.default.createElement(_index2.default, null)
                 )
             );
         }
@@ -38441,7 +38441,7 @@ var _reducer = __webpack_require__(289);
 
 var _reducer2 = _interopRequireDefault(_reducer);
 
-var _reducer3 = __webpack_require__(295);
+var _reducer3 = __webpack_require__(292);
 
 var _reducer4 = _interopRequireDefault(_reducer3);
 
@@ -38449,249 +38449,11 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 exports.default = (0, _redux.combineReducers)({
     explorer: _reducer2.default,
-    tree: _reducer4.default
+    pullRequest: _reducer4.default
 });
 
 /***/ }),
 /* 292 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-    value: true
-});
-
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-var _react = __webpack_require__(3);
-
-var _react2 = _interopRequireDefault(_react);
-
-var _reactRedux = __webpack_require__(84);
-
-var _classnames = __webpack_require__(165);
-
-var _classnames2 = _interopRequireDefault(_classnames);
-
-var _treeViewContainer = __webpack_require__(163);
-
-__webpack_require__(358);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-
-var Header = function (_Component) {
-    _inherits(Header, _Component);
-
-    function Header(props) {
-        _classCallCheck(this, Header);
-
-        var _this = _possibleConstructorReturn(this, (Header.__proto__ || Object.getPrototypeOf(Header)).call(this, props));
-
-        _this.handleFileClick = _this.handleFileClick.bind(_this);
-        return _this;
-    }
-
-    _createClass(Header, [{
-        key: 'handleFileClick',
-        value: function handleFileClick() {
-            var node = this.props.node;
-            if (node.status !== _treeViewContainer.FILE_STATUS_UNMODIFIED) {
-                var path = 'div[data-path=\'' + node.path + '\']';
-
-                var diffHeader = document.querySelector(path);
-                diffHeader.scrollIntoView();
-            } else {
-                window.open(this.props.prHtmlUrl + '/' + node.type + '/' + this.props.prRef + '/' + node.path, '_blank');
-            }
-        }
-    }, {
-        key: 'folderItem',
-        value: function folderItem(name) {
-            return _react2.default.createElement(
-                'span',
-                { className: 'simpr-tree-view__header__label' },
-                name
-            );
-        }
-    }, {
-        key: 'fileItem',
-        value: function fileItem(name) {
-            return _react2.default.createElement(
-                'span',
-                {
-                    className: 'simpr-tree-view__header__label',
-                    onClick: this.handleFileClick },
-                name
-            );
-        }
-    }, {
-        key: 'render',
-        value: function render() {
-            var node = this.props.node;
-            var headerClassNames = (0, _classnames2.default)(_defineProperty({
-                'simpr-tree-view__header': true
-            }, 'simpr-tree-view__header--' + node.status, true));
-
-            return _react2.default.createElement(
-                'div',
-                { className: headerClassNames },
-                node.type === _treeViewContainer.LEAF_TYPE ? this.fileItem(node.name) : this.folderItem(node.name)
-            );
-        }
-    }]);
-
-    return Header;
-}(_react.Component);
-
-var mapStateToProps = function mapStateToProps(state) {
-    return {
-        prRef: state.tree.prRef,
-        prHtmlUrl: state.tree.prHtmlUrl
-    };
-};
-
-exports.default = (0, _reactRedux.connect)(mapStateToProps)(Header);
-
-/***/ }),
-/* 293 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-    value: true
-});
-
-var _header = __webpack_require__(292);
-
-var _header2 = _interopRequireDefault(_header);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-exports.default = {
-    Header: _header2.default
-};
-
-/***/ }),
-/* 294 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-    value: true
-});
-
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-var _react = __webpack_require__(3);
-
-var _react2 = _interopRequireDefault(_react);
-
-var _reactTreebeard = __webpack_require__(660);
-
-var _decorators = __webpack_require__(293);
-
-var _decorators2 = _interopRequireDefault(_decorators);
-
-var _location = __webpack_require__(87);
-
-var _location2 = _interopRequireDefault(_location);
-
-__webpack_require__(359);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-
-var TreeView = function (_Component) {
-    _inherits(TreeView, _Component);
-
-    function TreeView(props) {
-        _classCallCheck(this, TreeView);
-
-        var _this = _possibleConstructorReturn(this, (TreeView.__proto__ || Object.getPrototypeOf(TreeView)).call(this, props));
-
-        _this.state = {
-            treeData: {
-                name: _location2.default.getRepoName(),
-                children: [],
-                toggled: true,
-                active: true,
-                loading: true
-            }
-        };
-        _this.onToggle = _this.onToggle.bind(_this);
-
-        _this.decorators = Object.assign({}, _reactTreebeard.decorators, _decorators2.default);
-
-        _this.resetStyles = Object.assign({}, _reactTreebeard.theme);
-        _this.resetStyles.tree.base.backgroundColor = '';
-        _this.resetStyles.tree.base.color = '';
-        _this.resetStyles.tree.node.activeLink.background = '';
-        _this.resetStyles.tree.node.loading.color = '';
-        _this.resetStyles.tree.node.header.base.color = '';
-        return _this;
-    }
-
-    _createClass(TreeView, [{
-        key: 'componentWillReceiveProps',
-        value: function componentWillReceiveProps(nextProps) {
-            this.setState({
-                treeData: nextProps.treeData
-            });
-        }
-    }, {
-        key: 'onToggle',
-        value: function onToggle(node, toggled) {
-            if (this.state.cursor) {
-                this.state.cursor.active = false;
-            }
-            node.active = true;
-            if (node.children) {
-                node.toggled = toggled;
-            }
-            this.setState({ cursor: node });
-        }
-    }, {
-        key: 'render',
-        value: function render() {
-            return _react2.default.createElement(
-                'div',
-                { className: 'simpr-tree-view__container' },
-                _react2.default.createElement(_reactTreebeard.Treebeard, {
-                    data: this.state.treeData,
-                    onToggle: this.onToggle,
-                    decorators: this.decorators,
-                    styles: this.resetStyles
-                })
-            );
-        }
-    }]);
-
-    return TreeView;
-}(_react.Component);
-
-exports.default = TreeView;
-
-/***/ }),
-/* 295 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -38757,6 +38519,244 @@ exports.default = (0, _reduxActionReducerMapper2.default)((_mapActionToReducer =
         }, {})
     });
 }), _mapActionToReducer));
+
+/***/ }),
+/* 293 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _react = __webpack_require__(3);
+
+var _react2 = _interopRequireDefault(_react);
+
+var _reactRedux = __webpack_require__(84);
+
+var _classnames = __webpack_require__(165);
+
+var _classnames2 = _interopRequireDefault(_classnames);
+
+var _index = __webpack_require__(163);
+
+__webpack_require__(358);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var Header = function (_Component) {
+    _inherits(Header, _Component);
+
+    function Header(props) {
+        _classCallCheck(this, Header);
+
+        var _this = _possibleConstructorReturn(this, (Header.__proto__ || Object.getPrototypeOf(Header)).call(this, props));
+
+        _this.handleFileClick = _this.handleFileClick.bind(_this);
+        return _this;
+    }
+
+    _createClass(Header, [{
+        key: 'handleFileClick',
+        value: function handleFileClick() {
+            var node = this.props.node;
+            if (node.status !== _index.FILE_STATUS_UNMODIFIED) {
+                var path = 'div[data-path=\'' + node.path + '\']';
+
+                var diffHeader = document.querySelector(path);
+                diffHeader.scrollIntoView();
+            } else {
+                window.open(this.props.prHtmlUrl + '/' + node.type + '/' + this.props.prRef + '/' + node.path, '_blank');
+            }
+        }
+    }, {
+        key: 'folderItem',
+        value: function folderItem(name) {
+            return _react2.default.createElement(
+                'span',
+                { className: 'simpr-tree-view__header__label' },
+                name
+            );
+        }
+    }, {
+        key: 'fileItem',
+        value: function fileItem(name) {
+            return _react2.default.createElement(
+                'span',
+                {
+                    className: 'simpr-tree-view__header__label',
+                    onClick: this.handleFileClick },
+                name
+            );
+        }
+    }, {
+        key: 'render',
+        value: function render() {
+            var node = this.props.node;
+            var headerClassNames = (0, _classnames2.default)(_defineProperty({
+                'simpr-tree-view__header': true
+            }, 'simpr-tree-view__header--' + node.status, true));
+
+            return _react2.default.createElement(
+                'div',
+                { className: headerClassNames },
+                node.type === _index.LEAF_TYPE ? this.fileItem(node.name) : this.folderItem(node.name)
+            );
+        }
+    }]);
+
+    return Header;
+}(_react.Component);
+
+var mapStateToProps = function mapStateToProps(state) {
+    return {
+        prRef: state.pullRequest.prRef,
+        prHtmlUrl: state.pullRequest.prHtmlUrl
+    };
+};
+
+exports.default = (0, _reactRedux.connect)(mapStateToProps)(Header);
+
+/***/ }),
+/* 294 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
+var _index = __webpack_require__(293);
+
+var _index2 = _interopRequireDefault(_index);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+exports.default = {
+    Header: _index2.default
+};
+
+/***/ }),
+/* 295 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _react = __webpack_require__(3);
+
+var _react2 = _interopRequireDefault(_react);
+
+var _reactTreebeard = __webpack_require__(660);
+
+var _index = __webpack_require__(294);
+
+var _index2 = _interopRequireDefault(_index);
+
+var _location = __webpack_require__(87);
+
+var _location2 = _interopRequireDefault(_location);
+
+__webpack_require__(359);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var TreeView = function (_Component) {
+    _inherits(TreeView, _Component);
+
+    function TreeView(props) {
+        _classCallCheck(this, TreeView);
+
+        var _this = _possibleConstructorReturn(this, (TreeView.__proto__ || Object.getPrototypeOf(TreeView)).call(this, props));
+
+        _this.state = {
+            treeData: {
+                name: _location2.default.getRepoName(),
+                children: [],
+                toggled: true,
+                active: true,
+                loading: true
+            }
+        };
+        _this.onToggle = _this.onToggle.bind(_this);
+
+        _this.decorators = Object.assign({}, _reactTreebeard.decorators, _index2.default);
+
+        _this.resetStyles = Object.assign({}, _reactTreebeard.theme);
+        _this.resetStyles.tree.base.backgroundColor = '';
+        _this.resetStyles.tree.base.color = '';
+        _this.resetStyles.tree.node.activeLink.background = '';
+        _this.resetStyles.tree.node.loading.color = '';
+        _this.resetStyles.tree.node.header.base.color = '';
+        return _this;
+    }
+
+    _createClass(TreeView, [{
+        key: 'componentWillReceiveProps',
+        value: function componentWillReceiveProps(nextProps) {
+            this.setState({
+                treeData: nextProps.treeData
+            });
+        }
+    }, {
+        key: 'onToggle',
+        value: function onToggle(node, toggled) {
+            if (this.state.cursor) {
+                this.state.cursor.active = false;
+            }
+            node.active = true;
+            if (node.children) {
+                node.toggled = toggled;
+            }
+            this.setState({ cursor: node });
+        }
+    }, {
+        key: 'render',
+        value: function render() {
+            return _react2.default.createElement(
+                'div',
+                { className: 'simpr-tree-view__container' },
+                _react2.default.createElement(_reactTreebeard.Treebeard, {
+                    data: this.state.treeData,
+                    onToggle: this.onToggle,
+                    decorators: this.decorators,
+                    styles: this.resetStyles
+                })
+            );
+        }
+    }]);
+
+    return TreeView;
+}(_react.Component);
+
+exports.default = TreeView;
 
 /***/ }),
 /* 296 */

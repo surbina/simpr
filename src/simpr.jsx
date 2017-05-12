@@ -10,7 +10,7 @@ import {
 } from 'react-router-dom'
 
 import root_reducer from './root_reducer';
-import ExplorerContainer from './explorer/components/explorer-container';
+import ExplorerContainer from './explorer/explorer-container';
 
 import './base.scss';
 

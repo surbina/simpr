@@ -1,4 +1,4 @@
-import { repository } from '../github.helper';
+import { repository } from '../../github.helper';
 
 export const FETCH_PR_DATA_REQUEST = 'SIMPR_FETCH_PR_DATA_REQUEST';
 export const FETCH_PR_DATA_RESPONSE = 'SIMPR_FETCH_PR_DATA_RESPONSE';
