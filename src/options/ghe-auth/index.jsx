@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { map } from 'lodash';
+import { map, forEach } from 'lodash';
 import GHEList from './ghe-list';
 import GHEAddSiteForm from './ghe-add-site-form';
 
@@ -12,6 +12,7 @@ class GHEAuthPanel extends Component {
             addSiteForm: {
                 url: '',
                 token: '',
+                protocol: 'https://',
             },
             siteListForm: {},
         };
@@ -45,29 +46,43 @@ class GHEAuthPanel extends Component {
 
     handleAddSiteFormSubmit(event) {
         event.preventDefault();
-        chrome.storage.sync.set({
-            permissions: {
-                ...this.state.permissionsMap,
-                [this.state.addSiteForm.url]: this.state.addSiteForm,
-            },
-        }, () => {
-            this.setState({
-                addSiteForm: {
-                    url: '',
-                    token: '',
-                },
-                permissionsMap: {
-                    ...this.state.permissionsMap,
-                    [this.state.addSiteForm.url]: this.state.addSiteForm,
-                }
-            });
+
+        const urlPermission = `${this.state.addSiteForm.protocol}${this.state.addSiteForm.url}`;
+        const siteForm = {
+            ...this.state.addSiteForm,
+            url: urlPermission,
+        };
+
+        chrome.permissions.request({
+            origins: [`${urlPermission}/*`],
+        }, (granted) => {
+            if(granted) {
+                chrome.storage.sync.set({
+                    permissions: {
+                        ...this.state.permissionsMap,
+                        [urlPermission]: siteForm,
+                    },
+                }, () => {
+                    this.setState({
+                        addSiteForm: {
+                            url: '',
+                            token: '',
+                            protocol: 'https://',
+                        },
+                        permissionsMap: {
+                            ...this.state.permissionsMap,
+                            [urlPermission]: siteForm,
+                        }
+                    });
+                });
+            }
         });
     }
 
     createSiteListFormValueHandler(siteKey) {
         return (event) => {
             const checked = event.target.value;
-            const cloneState = { ...this.state.addSiteForm };
+            const cloneState = { ...this.state.siteListForm };
 
             if(checked) {
                 cloneState[siteKey] = siteKey;
@@ -76,7 +91,7 @@ class GHEAuthPanel extends Component {
             }
 
             this.setState({
-                addSiteForm: cloneState
+                siteListForm: cloneState,
             });
         }
     }
@@ -86,17 +101,23 @@ class GHEAuthPanel extends Component {
 
         const clonedPermissionsMap = { ...this.state.permissionsMap };
 
-        map(this.state.addSiteForm, (key) => {
+        forEach(this.state.siteListForm, (value, key) => {
             delete clonedPermissionsMap[key];
         });
 
-        chrome.storage.sync.set({
-            permissions: clonedPermissionsMap,
-        }, () => {
-            this.setState({
-                permissionsMap: clonedPermissionsMap,
-                siteListForm: {},
-            });
+        chrome.permissions.remove({
+            origins: map(this.state.siteListForm, (value, key) => `${key}/*`),
+        }, (removed) => {
+            if(removed) {
+                chrome.storage.sync.set({
+                    permissions: clonedPermissionsMap,
+                }, () => {
+                    this.setState({
+                        permissionsMap: clonedPermissionsMap,
+                        siteListForm: {},
+                    });
+                });
+            }
         });
     }
 
@@ -105,6 +126,7 @@ class GHEAuthPanel extends Component {
             <div>
                 <h3>GHEAuthPanel</h3>
                 <GHEAddSiteForm
+                    protocol={ this.state.addSiteForm.protocol }
                     url={ this.state.addSiteForm.url }
                     token={ this.state.addSiteForm.token }
                     onSubmit={ this.handleAddSiteFormSubmit }

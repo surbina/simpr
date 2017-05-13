@@ -11136,7 +11136,7 @@ var TreeViewContainer = function (_Component) {
     }, {
         key: 'render',
         value: function render() {
-            return this.props.extensionOptionsLoaded ? _react2.default.createElement(_index2.default, { treeData: this.props.treeData }) : null;
+            return _react2.default.createElement(_index2.default, { treeData: this.props.treeData });
         }
     }]);
 
@@ -11220,8 +11220,6 @@ var mapStateToProps = function mapStateToProps(state) {
         active: true,
         loading: true
     };
-
-    console.log('Ext options: ', state.options);
 
     return {
         treeData: treeData,
@@ -38311,6 +38309,7 @@ var ExplorerContainer = function (_Component) {
             var _this2 = this;
 
             return _react2.default.createElement(_index2.default, {
+                extensionOptionsLoaded: this.props.extensionOptionsLoaded,
                 isOpen: this.props.isOpen,
                 onToggleExplorer: function onToggleExplorer() {
                     _this2.props.fireToggleExplorer();
@@ -38323,7 +38322,8 @@ var ExplorerContainer = function (_Component) {
 
 var mapStateToProps = function mapStateToProps(state) {
     return {
-        isOpen: state.explorer.isOpen
+        isOpen: state.explorer.isOpen,
+        extensionOptionsLoaded: state.options.loaded
     };
 };
 
@@ -38407,7 +38407,11 @@ var Explorer = function (_Component) {
                 _react2.default.createElement(
                     'div',
                     { className: 'simpr-explorer__panel' },
-                    _react2.default.createElement(_index2.default, null)
+                    this.props.extensionOptionsLoaded ? _react2.default.createElement(_index2.default, null) : _react2.default.createElement(
+                        'div',
+                        null,
+                        'Loading extension ...'
+                    )
                 )
             );
         }
@@ -38554,8 +38558,8 @@ exports.default = (0, _reduxActionReducerMapper2.default)((_mapActionToReducer =
 }), _defineProperty(_mapActionToReducer, _actions.FETCH_OPTIONS_RESPONSE, function (state, action) {
     return _extends({}, state, {
         loaded: true,
-        url: action.payload.url,
-        token: action.payload.token
+        url: action.payload[location.host].url,
+        token: action.payload[location.host].token
     });
 }), _mapActionToReducer));
 

@@ -1,7 +1,6 @@
 chrome.tabs.onUpdated.addListener((tabId, changeInfo, tab) => {
     if (changeInfo.status !== 'loading') return
 
-
     chrome.tabs.executeScript(tabId, {
         code: 'var injected = window.simprInjected; window.simprInjected = true; injected;',
         runAt: 'document_start'

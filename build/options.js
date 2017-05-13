@@ -9573,32 +9573,59 @@ var GHEAddSiteForm = function (_Component) {
     }
 
     _createClass(GHEAddSiteForm, [{
-        key: "render",
+        key: 'componentDidMount',
+        value: function componentDidMount() {
+            // When the component is mounted, grab a reference and add a DOM listener;
+            this.form.addEventListener('submit', this.props.onSubmit); // React .14+
+        }
+    }, {
+        key: 'componentWillUnmount',
+        value: function componentWillUnmount() {
+            // Make sure to remove the DOM listener when the component is unmounted
+            this.form.removeEventListener('submit', this.props.onSubmit); // React .14+
+        }
+    }, {
+        key: 'render',
         value: function render() {
+            var _this2 = this;
+
             return _react2.default.createElement(
-                "form",
-                { onSubmit: this.props.onSubmit },
+                'form',
+                { ref: function ref(form) {
+                        _this2.form = form;
+                    } },
                 _react2.default.createElement(
-                    "span",
-                    null,
-                    "https://"
+                    'select',
+                    {
+                        value: this.props.protocol,
+                        onChange: this.props.valueHandlerCreator('protocol') },
+                    _react2.default.createElement(
+                        'option',
+                        { value: 'http://' },
+                        'http://'
+                    ),
+                    _react2.default.createElement(
+                        'option',
+                        { value: 'https://' },
+                        'https://'
+                    )
                 ),
-                _react2.default.createElement("input", {
-                    type: "text",
-                    placeholder: "URL",
+                _react2.default.createElement('input', {
+                    type: 'text',
+                    placeholder: 'URL',
                     value: this.props.url,
                     onChange: this.props.valueHandlerCreator('url')
                 }),
-                _react2.default.createElement("input", {
-                    type: "text",
-                    placeholder: "Token",
+                _react2.default.createElement('input', {
+                    type: 'text',
+                    placeholder: 'Token',
                     value: this.props.token,
                     onChange: this.props.valueHandlerCreator('token')
                 }),
                 _react2.default.createElement(
-                    "button",
-                    { type: "submit" },
-                    "Save Auth Token"
+                    'button',
+                    { type: 'submit' },
+                    'Save Auth Token'
                 )
             );
         }
@@ -9644,37 +9671,55 @@ var GHEList = function (_Component) {
     }
 
     _createClass(GHEList, [{
-        key: "render",
+        key: 'componentDidMount',
+        value: function componentDidMount() {
+            // When the component is mounted, grab a reference and add a DOM listener;
+            this.form.addEventListener('submit', this.props.onSubmit); // React .14+
+        }
+    }, {
+        key: 'componentWillUnmount',
+        value: function componentWillUnmount() {
+            // Make sure to remove the DOM listener when the component is unmounted
+            this.form.removeEventListener('submit', this.props.onSubmit); // React .14+
+        }
+    }, {
+        key: 'render',
         value: function render() {
             var _this2 = this;
 
-            return this.props.siteList.length ? _react2.default.createElement(
-                "form",
-                { onSubmit: this.props.onSubmit },
-                _react2.default.createElement(
-                    "ul",
+            return _react2.default.createElement(
+                'form',
+                { ref: function ref(form) {
+                        _this2.form = form;
+                    } },
+                this.props.siteList.length ? _react2.default.createElement(
+                    'div',
                     null,
-                    this.props.siteList.map(function (siteInfo) {
-                        return _react2.default.createElement(
-                            "li",
-                            { key: siteInfo.url },
-                            _react2.default.createElement("input", {
-                                type: "checkbox",
-                                onChange: _this2.props.valueHandlerCreator(siteInfo.url) }),
-                            " ",
-                            siteInfo.url
-                        );
-                    })
-                ),
-                _react2.default.createElement(
-                    "button",
-                    { type: "submit" },
-                    "Delete auth tokens"
+                    _react2.default.createElement(
+                        'ul',
+                        null,
+                        this.props.siteList.map(function (siteInfo) {
+                            return _react2.default.createElement(
+                                'li',
+                                { key: siteInfo.url },
+                                _react2.default.createElement('input', {
+                                    type: 'checkbox',
+                                    onChange: _this2.props.valueHandlerCreator(siteInfo.url) }),
+                                ' ',
+                                siteInfo.url
+                            );
+                        })
+                    ),
+                    _react2.default.createElement(
+                        'button',
+                        { type: 'submit' },
+                        'Delete auth tokens'
+                    )
+                ) : _react2.default.createElement(
+                    'span',
+                    null,
+                    'Permission list is empty'
                 )
-            ) : _react2.default.createElement(
-                "span",
-                null,
-                "Permission list is empty"
             );
         }
     }]);
@@ -9735,7 +9780,8 @@ var GHEAuthPanel = function (_Component) {
             permissionsMap: {},
             addSiteForm: {
                 url: '',
-                token: ''
+                token: '',
+                protocol: 'https://'
             },
             siteListForm: {}
         };
@@ -9778,16 +9824,29 @@ var GHEAuthPanel = function (_Component) {
             var _this4 = this;
 
             event.preventDefault();
-            chrome.storage.sync.set({
-                permissions: _extends({}, this.state.permissionsMap, _defineProperty({}, this.state.addSiteForm.url, this.state.addSiteForm))
-            }, function () {
-                _this4.setState({
-                    addSiteForm: {
-                        url: '',
-                        token: ''
-                    },
-                    permissionsMap: _extends({}, _this4.state.permissionsMap, _defineProperty({}, _this4.state.addSiteForm.url, _this4.state.addSiteForm))
-                });
+
+            var urlPermission = '' + this.state.addSiteForm.protocol + this.state.addSiteForm.url;
+            var siteForm = _extends({}, this.state.addSiteForm, {
+                url: urlPermission
+            });
+
+            chrome.permissions.request({
+                origins: [urlPermission + '/*']
+            }, function (granted) {
+                if (granted) {
+                    chrome.storage.sync.set({
+                        permissions: _extends({}, _this4.state.permissionsMap, _defineProperty({}, urlPermission, siteForm))
+                    }, function () {
+                        _this4.setState({
+                            addSiteForm: {
+                                url: '',
+                                token: '',
+                                protocol: 'https://'
+                            },
+                            permissionsMap: _extends({}, _this4.state.permissionsMap, _defineProperty({}, urlPermission, siteForm))
+                        });
+                    });
+                }
             });
         }
     }, {
@@ -9797,7 +9856,7 @@ var GHEAuthPanel = function (_Component) {
 
             return function (event) {
                 var checked = event.target.value;
-                var cloneState = _extends({}, _this5.state.addSiteForm);
+                var cloneState = _extends({}, _this5.state.siteListForm);
 
                 if (checked) {
                     cloneState[siteKey] = siteKey;
@@ -9806,7 +9865,7 @@ var GHEAuthPanel = function (_Component) {
                 }
 
                 _this5.setState({
-                    addSiteForm: cloneState
+                    siteListForm: cloneState
                 });
             };
         }
@@ -9819,18 +9878,42 @@ var GHEAuthPanel = function (_Component) {
 
             var clonedPermissionsMap = _extends({}, this.state.permissionsMap);
 
-            (0, _lodash.map)(this.state.addSiteForm, function (key) {
+            (0, _lodash.forEach)(this.state.siteListForm, function (value, key) {
                 delete clonedPermissionsMap[key];
             });
 
-            chrome.storage.sync.set({
-                permissions: clonedPermissionsMap
-            }, function () {
-                _this6.setState({
-                    permissionsMap: clonedPermissionsMap,
-                    siteListForm: {}
-                });
+            chrome.permissions.remove({
+                origins: (0, _lodash.map)(this.state.siteListForm, function (value, key) {
+                    return key + '/*';
+                })
+            }, function (removed) {
+                if (removed) {
+                    chrome.storage.sync.set({
+                        permissions: clonedPermissionsMap
+                    }, function () {
+                        _this6.setState({
+                            permissionsMap: clonedPermissionsMap,
+                            siteListForm: {}
+                        });
+                    });
+                }
             });
+
+            /*chrome.runtime.sendMessage({
+                type: 'removePermission',
+                urls: map(this.state.siteListForm),
+            }, (removed) => {
+                if(removed) {
+                    chrome.storage.sync.set({
+                        permissions: clonedPermissionsMap,
+                    }, () => {
+                        this.setState({
+                            permissionsMap: clonedPermissionsMap,
+                            siteListForm: {},
+                        });
+                    });
+                }
+            });*/
         }
     }, {
         key: 'render',
@@ -9844,6 +9927,7 @@ var GHEAuthPanel = function (_Component) {
                     'GHEAuthPanel'
                 ),
                 _react2.default.createElement(_gheAddSiteForm2.default, {
+                    protocol: this.state.addSiteForm.protocol,
                     url: this.state.addSiteForm.url,
                     token: this.state.addSiteForm.token,
                     onSubmit: this.handleAddSiteFormSubmit,
