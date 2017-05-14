@@ -1,3 +1,4 @@
+import { get } from 'lodash';
 import mapActionToReducer from 'redux-action-reducer-mapper';
 
 import {
@@ -20,7 +21,7 @@ export default mapActionToReducer({
     [FETCH_OPTIONS_RESPONSE]: (state, action) => ({
         ...state,
         loaded: true,
-        url: action.payload[location.host].url,
-        token: action.payload[location.host].token,
+        url: get(action.payload.permissions, [`${location.protocol}//${location.host}`, 'url'], ''),
+        token: get(action.payload.permissions, [`${location.protocol}//${location.host}`, 'token'], ''),
     }),
 });

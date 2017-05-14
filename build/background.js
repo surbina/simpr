@@ -92,28 +92,6 @@ chrome.tabs.onUpdated.addListener(function (tabId, changeInfo, tab) {
     });
 });
 
-/*const messageHandler = {
-    requestPermission: (req, sender, sendRes) => {
-        chrome.permissions.request({ origins: [req.url] }, (granted) => {
-            sendRes(granted);
-        });
-    },
-    removePermission: (req, sender, sendRes) => {
-        chrome.permissions.remove({ origins: req.urls }, (removed) => {
-            sendRes(removed);
-        });
-    },
-};
-
-debugger;
-
-chrome.runtime.onMessage.addListener((req, sender, sendRes) => {
-    debugger;
-    const handler = messageHandler[req.type];
-
-    return handler ? handler(req, sender, sendRes) : true;
-});*/
-
 /***/ }),
 /* 1 */
 /***/ (function(module, exports, __webpack_require__) {

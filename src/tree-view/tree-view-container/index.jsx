@@ -18,7 +18,7 @@ export const FILE_STATUS_ADDED = 'added';
 
 class TreeViewContainer extends Component {
     componentDidMount() {
-        this.props.fireFetchTree(locationHelper.getPRNumber());
+        this.props.fireFetchTree(locationHelper.getPRNumber(), this.props.baseUrl, this.props.authToken);
     }
 
     render() {
@@ -117,6 +117,8 @@ const mapStateToProps = (state) => {
     return {
         treeData,
         extensionOptionsLoaded: state.options.loaded,
+        baseUrl: state.options.url,
+        authToken: state.options.token,
     };
 };
 

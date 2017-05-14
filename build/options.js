@@ -9898,22 +9898,6 @@ var GHEAuthPanel = function (_Component) {
                     });
                 }
             });
-
-            /*chrome.runtime.sendMessage({
-                type: 'removePermission',
-                urls: map(this.state.siteListForm),
-            }, (removed) => {
-                if(removed) {
-                    chrome.storage.sync.set({
-                        permissions: clonedPermissionsMap,
-                    }, () => {
-                        this.setState({
-                            permissionsMap: clonedPermissionsMap,
-                            siteListForm: {},
-                        });
-                    });
-                }
-            });*/
         }
     }, {
         key: 'render',

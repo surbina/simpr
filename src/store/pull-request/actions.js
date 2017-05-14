@@ -1,4 +1,4 @@
-import { repository } from '../../github.helper';
+import GitHubHelper from '../../github.helper';
 
 export const FETCH_PR_DATA_REQUEST = 'SIMPR_FETCH_PR_DATA_REQUEST';
 export const FETCH_PR_DATA_RESPONSE = 'SIMPR_FETCH_PR_DATA_RESPONSE';
@@ -53,40 +53,44 @@ const fireFetchPRFilesResponse = (prId, prFiles) => ({
     },
 });
 
-export const fireFetchTree = (prId) =>
+export const fireFetchTree = (prId, url, token) =>
     (dispatch) => {
         dispatch(fireFetchPRDataRequest(prId));
+        const ghHelper = new GitHubHelper(url, token);
 
-        repository
+        ghHelper.repository()
             .getPullRequest(prId)
             .then((prData) => {
                 const prHead = prData.data.head;
                 dispatch(fireFetchPRDataResponse(prHead.ref, prHead.repo.html_url));
 
-                dispatch(fireFetchHead(prHead.sha));
+                dispatch(fireFetchHead(prHead.sha, url, token));
             });
 
-        dispatch(fireFetchPRFiles(prId));
+        dispatch(fireFetchPRFiles(prId, url, token));
     };
 
-export const fireFetchHead = (treeSha) =>
+export const fireFetchHead = (treeSha, url, token) =>
     (dispatch) => {
         dispatch(fireFetchHeadRequest(treeSha));
 
+        const ghHelper = new GitHubHelper(url, token);
         // Adding the recursive flag at the end of the sha code
         // this should be removed if the api ever gets to support this feature
-        repository
+        ghHelper.repository()
             .getTree(`${treeSha}?recursive=1`)
             .then((treeData) => {
                 dispatch(fireFetchHeadResponse(treeData.data));
             });
     };
 
-export const fireFetchPRFiles = (prId) =>
+export const fireFetchPRFiles = (prId, url, token) =>
     (dispatch) => {
         dispatch(fireFetchPRFilesRequest(prId));
 
-        repository
+        const ghHelper = new GitHubHelper(url, token);
+
+        ghHelper.repository()
             .listPullRequestFiles(prId)
             .then((prFiles) => {
                 dispatch(fireFetchPRFilesResponse(prId, prFiles.data));
