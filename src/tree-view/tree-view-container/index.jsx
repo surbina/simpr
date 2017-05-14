@@ -1,12 +1,12 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { map } from 'lodash';
-import TreeView from '../tree-view/index';
+import TreeView from '../tree-view';
+import TreeFilter from '../tree-filter';
 import locationHelper from '../../location.helper';
 
-import {
-    fireFetchTree
-} from '../../store/pull-request/actions';
+import { fireFetchTree } from '../../store/pull-request/actions';
+import { fireUpdateTreeFilter } from '../../store/tree-filter/actions';
 
 export const LEAF_TYPE = 'blob';
 export const TREE_TYPE = 'tree';
@@ -17,35 +17,34 @@ export const FILE_STATUS_REMOVED = 'removed';
 export const FILE_STATUS_ADDED = 'added';
 
 class TreeViewContainer extends Component {
+    constructor(props) {
+        super(props);
+
+        this.onFilterChange = this.onFilterChange.bind(this);
+    }
+
     componentDidMount() {
         this.props.fireFetchTree(locationHelper.getPRNumber(), this.props.baseUrl, this.props.authToken);
     }
 
+    onFilterChange(filter) {
+        this.props.fireUpdateTreeFilter(filter);
+    }
+
     render() {
         return (
-            <TreeView treeData={ this.props.treeData } />
+            <div>
+                <TreeFilter
+                    showOnlyModifiedFiles={ this.props.treeFilter.showOnlyModifiedFiles }
+                    handlerFilterChange={ this.onFilterChange } />
+                <TreeView treeData={ this.props.treeData } />
+            </div>
         );
     };
 }
 
-const _processTreeData = (rawTreeData, prFiles) => {
-    const deletedFiles = map(prFiles)
-        .filter((file) => file.status === FILE_STATUS_REMOVED)
-        .map((file) => ({
-            path: file.filename,
-            sha: file.sha,
-            type: LEAF_TYPE,
-            raw_url: file.raw_url,
-        }));
-    const treeNodes = (rawTreeData || [])
-        .concat(deletedFiles)
-        .sort((nodeA, nodeB) => (
-            nodeA.type === nodeB.type
-                ? nodeA.path.localeCompare(nodeB.path)
-                : nodeA.type === TREE_TYPE
-                    ? -1
-                    : 1
-        ));
+const _processTreeData = (rawTreeData, prFiles, treeFilter) => {
+    const treeNodes = _getTreeNodes(rawTreeData, prFiles, treeFilter);
 
     const tree = {
         name: locationHelper.getRepoName(),
@@ -70,6 +69,41 @@ const _processTreeData = (rawTreeData, prFiles) => {
     });
 
     return tree;
+};
+
+const _getTreeNodes = (rawTreeData, prFiles, treeFilter) => {
+    let treeNodes;
+    const modifiedFiles = map(prFiles, (file) => ({
+        path: file.filename,
+        sha: file.sha,
+        type: LEAF_TYPE,
+        raw_url: file.raw_url,
+        status: file.status,
+    })).sort((fileA, fileB) => (
+        fileA.path.split('/').length === fileB.path.split('/').length
+            ? fileA.path.localeCompare(fileB.path)
+            : fileA.path.split('/').length > fileB.path.split('/').length
+                ? -1
+                : 1
+    ));
+
+    if(treeFilter.showOnlyModifiedFiles) {
+        treeNodes = modifiedFiles;
+    } else {
+        const deletedFiles = modifiedFiles.filter((file) => file.status === FILE_STATUS_REMOVED);
+
+        treeNodes = (rawTreeData || [])
+            .concat(deletedFiles)
+            .sort((nodeA, nodeB) => (
+                nodeA.type === nodeB.type
+                    ? nodeA.path.localeCompare(nodeB.path)
+                    : nodeA.type === TREE_TYPE
+                    ? -1
+                    : 1
+            ));
+    }
+
+    return treeNodes;
 };
 
 const _insertInTree = (tree, path, node) => {
@@ -107,7 +141,7 @@ const mapStateToProps = (state) => {
     const prFiles = state.pullRequest.prFiles;
 
     const treeData = rawTreeData && prFiles ?
-        _processTreeData(rawTreeData, prFiles) :
+        _processTreeData(rawTreeData, prFiles, state.treeFilter) :
         {
             name: locationHelper.getRepoName(),
             children: [],
@@ -121,7 +155,11 @@ const mapStateToProps = (state) => {
         extensionOptionsLoaded: state.options.loaded,
         baseUrl: state.options.url,
         authToken: state.options.token,
+        treeFilter: state.treeFilter,
     };
 };
 
-export default connect(mapStateToProps, { fireFetchTree })(TreeViewContainer);
+export default connect(mapStateToProps, {
+    fireFetchTree,
+    fireUpdateTreeFilter,
+})(TreeViewContainer);
