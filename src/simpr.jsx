@@ -13,8 +13,6 @@ import {
 import root_reducer from './root_reducer';
 import ExplorerContainer from './explorer/explorer-container';
 
-import './base.scss';
-
 let store = createStore(
     root_reducer,
     applyMiddleware(thunk, createLogger({ collapsed: true }))
@@ -25,17 +23,10 @@ const treeViewContainer = document.createElement('div');
 
 body.appendChild(treeViewContainer);
 
-const toggleExplorerHandler = () => {
-    const isExplorerOpen = store.getState().explorer.isOpen;
-    body.className = isExplorerOpen ? 'simpr-body--open-explorer' : '';
-};
-
-store.subscribe(toggleExplorerHandler);
-
 render(
     <Provider store={ store }>
         <Router>
-            <Route exact path="/:owner/:repo/pull/:prId/files" component={ ExplorerContainer } />
+            <Route path="/:owner/:repo/pull/:prId/files" component={ ExplorerContainer } />
         </Router>
     </Provider>,
     treeViewContainer

@@ -14,11 +14,10 @@ class Explorer extends Component {
         return (
             <div className={ explorerClassNames }>
                 <div className="simpr-explorer__menu">
-                    <span>
-                        { this.props.isOpen ?
-                            'EXPLORER IS OPEN' :
-                            'EXPLORER IS CLOSED'}
-                    </span>
+                    <div>
+                        <h4>[PR {this.props.prData.id}] {this.props.prData.title}</h4>
+                        <h5>Branch: {this.props.prData.branch}</h5>
+                    </div>
                     <button
                         type="button"
                         className="simpr-explorer__menu__button"
@@ -28,12 +27,14 @@ class Explorer extends Component {
                             '>'}
                     </button>
                 </div>
-                <div className="simpr-explorer__panel">
-                    {
-                        this.props.extensionOptionsLoaded
-                            ? <TreeViewContainer />
-                            : <div>Loading extension ...</div>
-                    }
+                <div className="simpr-explorer__panel-container">
+                    <div className="simpr-explorer__panel">
+                        {
+                            this.props.extensionOptionsLoaded
+                                ? <TreeViewContainer />
+                                : <div>Loading extension ...</div>
+                        }
+                    </div>
                 </div>
             </div>
         );

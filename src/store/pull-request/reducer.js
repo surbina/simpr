@@ -20,6 +20,8 @@ const PR_FILES_STATUS_LOADED = 'PR_FILES_STATUS_LOADED';
 const INITIAL_STATE = {
     treeStatus: TREE_STATUS_INITIAL,
     prFilesStatus: PR_FILES_STATUS_INITIAL,
+    prTitle: '',
+    prId: '',
 };
 
 export default mapActionToReducer({
@@ -28,6 +30,8 @@ export default mapActionToReducer({
         ...state,
         prRef: action.payload.prRef,
         prHtmlUrl: action.payload.prHtmlUrl,
+        prTitle: action.payload.prTitle,
+        prId: action.payload.prId,
     }),
     [FETCH_HEAD_REQUEST]: (state) => ({
         ...state,
@@ -44,6 +48,7 @@ export default mapActionToReducer({
     }),
     [FETCH_PR_FILES_RESPONSE]: (state, action) => ({
         ...state,
+        prFilesStatus: PR_FILES_STATUS_LOADED,
         prFiles: reduce(action.payload.prFiles, (acc, file) => { acc[file.filename] = file; return acc; }, {}),
     }),
 });

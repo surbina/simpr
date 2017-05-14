@@ -5,7 +5,6 @@ import rimraf from 'rimraf';
 
 const plugins = loadPlugins();
 
-import popupWebpackConfig from './src/popup/webpack.config';
 import optionsWebpackConfig from './src/options/webpack.config';
 import backgroundWebpackConfig from './src/background/webpack.config';
 import simprWebpackConfig from './src/webpack.config';
@@ -28,22 +27,6 @@ gulp.task('background-js', ['clean'], (cb) => {
 
     cb();
   });
-});
-
-gulp.task('popup-js', ['clean'], (cb) => {
-  webpack(popupWebpackConfig, (err, stats) => {
-    if(err) throw new plugins.util.PluginError('webpack', err);
-
-    plugins.util.log('[webpack]', stats.toString());
-
-    cb();
-  });
-});
-
-gulp.task('popup-html', ['clean'], () => {
-  return gulp.src('src/popup/index.html')
-    .pipe(plugins.rename('popup.html'))
-    .pipe(gulp.dest('./build'))
 });
 
 gulp.task('options-html', ['clean'], () => {
@@ -71,7 +54,7 @@ gulp.task('clean', (cb) => {
   rimraf('./build', cb);
 });
 
-gulp.task('build', ['copy-manifest', 'simpr-js', 'background-js', 'popup-js', 'popup-html', 'options-js', 'options-html']);
+gulp.task('build', ['copy-manifest', 'simpr-js', 'background-js', 'options-js', 'options-html']);
 
 gulp.task('watch', ['default'], () => {
   gulp.watch('src/**/*', ['build']);

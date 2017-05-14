@@ -7,7 +7,7 @@ export const FETCH_HEAD_REQUEST = 'SIMPR_FETCH_HEAD_REQUEST';
 export const FETCH_HEAD_RESPONSE = 'SIMPR_FETCH_HEAD_RESPONSE';
 
 export const FETCH_PR_FILES_REQUEST = 'SIMPR_FETCH_PR_FILES_REQUEST';
-export const FETCH_PR_FILES_RESPONSE = 'SIMPR_FETCH_PR_FILES_RESPONSEs';
+export const FETCH_PR_FILES_RESPONSE = 'SIMPR_FETCH_PR_FILES_RESPONSE';
 
 const fireFetchPRDataRequest = (prId) => ({
     type: FETCH_PR_DATA_REQUEST,
@@ -16,11 +16,13 @@ const fireFetchPRDataRequest = (prId) => ({
     },
 });
 
-const fireFetchPRDataResponse = (prRef, prHtmlUrl) => ({
+const fireFetchPRDataResponse = (prRef, prHtmlUrl, prTitle, prId) => ({
     type: FETCH_PR_DATA_RESPONSE,
     payload: {
         prRef,
         prHtmlUrl,
+        prTitle,
+        prId,
     },
 });
 
@@ -62,7 +64,7 @@ export const fireFetchTree = (prId, url, token) =>
             .getPullRequest(prId)
             .then((prData) => {
                 const prHead = prData.data.head;
-                dispatch(fireFetchPRDataResponse(prHead.ref, prHead.repo.html_url));
+                dispatch(fireFetchPRDataResponse(prHead.ref, prHead.repo.html_url, prData.data.title, prId));
 
                 dispatch(fireFetchHead(prHead.sha, url, token));
             });

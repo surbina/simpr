@@ -17,15 +17,14 @@
   position: fixed;
   background: white;
   border-right: 1px solid #9DA5AB;
-  width: 300px;
+  width: 400px;
   top: 0;
   left: 0;
   height: 100%;
-  z-index: 1000001;
-  overflow: scroll; }
+  z-index: 1000001; }
 
 .simpr-explorer--close {
-  left: -300px;
+  left: -400px;
   overflow: visible; }
   .simpr-explorer--close .simpr-explorer__menu__button {
     position: relative;
@@ -38,10 +37,12 @@
   justify-content: space-between;
   align-items: center; }
 
+.simpr-explorer__panel-container {
+  overflow: scroll;
+  height: inherit; }
+
 .simpr-explorer__panel {
   padding: 10px;
-  width: 700px; }
-.simpr-body--open-explorer {
-  margin-left: 300px; }
+  display: inline-block; }
 
 /*# sourceMappingURL=simpr.css.map*/

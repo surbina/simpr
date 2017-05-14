@@ -40,9 +40,11 @@ const _processTreeData = (rawTreeData, prFiles) => {
     const treeNodes = (rawTreeData || [])
         .concat(deletedFiles)
         .sort((nodeA, nodeB) => (
-            nodeA.type === TREE_TYPE ? -1 :
-                nodeB.type === TREE_TYPE ? 1 :
-                    nodeA.path.localeCompare(nodeB.path)
+            nodeA.type === nodeB.type
+                ? nodeA.path.localeCompare(nodeB.path)
+                : nodeA.type === TREE_TYPE
+                    ? -1
+                    : 1
         ));
 
     const tree = {
