@@ -39,7 +39,10 @@ class TreeView extends Component {
     onToggle(node, toggled){
         if(this.state.cursor){this.state.cursor.active = false;}
         node.active = true;
-        if(node.children){ node.toggled = toggled; }
+        if(node.children){
+            node.toggled = toggled;
+            this.props.handleToggleChange(node.path, toggled);
+        }
         this.setState({ cursor: node });
     }
 
